@@ -1,0 +1,161 @@
+{
+  "app": {
+    "name": "DANI-ETH",
+    "tagline": "Automated Ethical Hacking Platform"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "comingSoon": "Coming soon",
+    "comingSoonDescription": "This section is under development. We'll build it in the upcoming sprints."
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "vulnerabilities": "Vulnerability Hub",
+    "aiPentesting": "AI Pentesting",
+    "patches": "Patch Manager",
+    "team": "Team & Assets",
+    "reports": "Reports",
+    "settings": "Settings",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Toggle theme",
+    "toggleThemeDark": "Switch to dark mode",
+    "toggleThemeLight": "Switch to light mode",
+    "language": "Language"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "description": "Security command center — metrics and vulnerabilities in real time"
+    },
+    "vulnerabilities": {
+      "title": "Vulnerability Hub",
+      "description": "Centralized management of detected vulnerabilities"
+    },
+    "aiPentesting": {
+      "title": "AI Pentesting Engine",
+      "description": "Autonomous penetration testing engine powered by artificial intelligence"
+    },
+    "patches": {
+      "title": "Patch Manager",
+      "description": "Patch and remediation management across infrastructure"
+    },
+    "team": {
+      "title": "Team & Assets",
+      "description": "Team, assignment and infrastructure asset management"
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Executive and technical security report generation"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "System configuration and team preferences"
+    },
+    "teamPage": {
+      "subtitle": "Manage security teams, workload distribution, and application access",
+      "btnAddMember": "+ Add Team Member",
+      "btnAnalytics": "📊 Team Analytics",
+      "btnSyncLdap": "🔄 Sync from LDAP",
+      "stats": {
+        "totalMembers": "TOTAL MEMBERS",
+        "activeTasks": "ACTIVE TASKS",
+        "overloaded": "OVERLOADED",
+        "available": "AVAILABLE",
+        "avgCompletion": "AVG COMPLETION",
+        "teams": "teams",
+        "avgPerMember": "Avg {{val}} per member",
+        "moreThan5": ">5 tasks each",
+        "lessThan3": "<3 tasks each",
+        "perTask": "Per task"
+      },
+      "member": {
+        "idLabel": "ID:",
+        "teamLead": "Team Lead",
+        "activeTasks": "{{count}} active task",
+        "activeTasks_plural": "{{count}} active tasks",
+        "completedMonth": "Completed This Month",
+        "avgCompletion": "Avg Completion Time",
+        "viewReassign": "View All Tasks & Reassign",
+        "workload": {
+          "label": "Current Workload",
+          "light": "Light Load",
+          "medium": "Medium Load",
+          "overloaded": "Overloaded"
+        },
+        "permissions": {
+          "title": "🔒 Application Permissions",
+          "viewDashboard": "📊 View Dashboard",
+          "runScans": "🔍 Run Scans",
+          "vulnerabilityHub": "⚠ Vulnerability Hub - Full Access",
+          "managePatches": "✏ Manage Patches",
+          "teamManagement": "👥 Team Management",
+          "adminSettings": "⚙ Admin Settings"
+        },
+        "notifications": {
+          "title": "🔔 Notification Settings",
+          "email": "✉ Email",
+          "slack": "💬 Slack",
+          "sms": "📱 SMS (Critical only)",
+          "inApp": "🔔 In-App Notifications",
+          "notifyWhen": "Notify When:",
+          "taskAssigned": "Task assigned",
+          "criticalVuln": "Critical vulnerabilities",
+          "dailyDigest": "Daily digest"
+        },
+        "actions": {
+          "edit": "✏ Edit",
+          "delete": "🗑",
+          "moveTeam": "🔄 Move Team"
+        }
+      },
+      "modal": {
+        "addTitle": "+ Add Team Member",
+        "fieldName": "Full Name",
+        "fieldNamePlaceholder": "e.g. John Smith",
+        "fieldEmail": "Email",
+        "fieldEmailPlaceholder": "john@company.com",
+        "fieldRole": "Role",
+        "fieldRolePlaceholder": "e.g. Network Engineer",
+        "fieldTeamLead": "Is Team Lead",
+        "btnAdd": "Add Member",
+        "btnAdding": "Saving...",
+        "errorRequired": "Name, email and role are required.",
+        "errorApi": "Error creating the member."
+      },
+      "empty": {
+        "noTeams": "No teams created yet",
+        "noTeamsHint": "Teams are created from the Firebase console or via API.",
+        "noMembers": "This team has no members yet.",
+        "btnFirstMember": "+ Add First Member"
+      },
+      "error": {
+        "loadFailed": "Could not load team information.",
+        "loadHint": "Please check the backend connection.",
+        "retry": "Retry",
+        "deleteFailed": "Error deleting member.",
+        "confirmDelete": "Delete this team member?"
+      },
+      "loading": "Loading Team & Assets..."
+    }
+  },
+  "setup": {
+    "title": "Verifying setup",
+    "checkingBackend": "Connecting to backend...",
+    "backendOk": "Backend connected",
+    "backendError": "Could not connect to backend",
+    "firebaseOk": "Firebase configured",
+    "firebaseError": "Firebase is not configured",
+    "ready": "All set. The application is running correctly.",
+    "nextSteps": "Next steps",
+    "step2": "Implement layout and navigation",
+    "step3": "Implement authentication system",
+    "goToDashboard": "Go to Dashboard"
+  }
+}

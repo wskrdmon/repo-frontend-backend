@@ -1,0 +1,561 @@
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+          background: #0a0e17;
+          color: #e4e6eb;
+          overflow-x: hidden;
+        }
+
+        .sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 260px;
+          height: 100vh;
+          background: #12161f;
+          border-right: 1px solid #1e2533;
+          padding: 24px 0;
+          z-index: 100;
+        }
+
+        .logo {
+          padding: 0 24px 32px;
+          border-bottom: 1px solid #1e2533;
+          margin-bottom: 24px;
+        }
+
+        .logo h1 {
+          font-size: 24px;
+          color: #00d4ff;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .nav-item {
+          padding: 14px 24px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.2s;
+          color: #8b92a8;
+          border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+          background: rgba(0, 212, 255, 0.1);
+          color: #00d4ff;
+          border-left-color: #00d4ff;
+        }
+
+        .nav-item.active {
+          background: rgba(0, 212, 255, 0.1);
+          color: #00d4ff;
+          border-left-color: #00d4ff;
+        }
+
+        .nav-icon {
+          font-size: 20px;
+        }
+
+        .main-container {
+         margin-left: 260px;        /* Lo que ya tenía Max */
+        min-height: 100vh;         /* Lo que ya tenía Max */
+        padding: 32px;             /* 2. Padding exigido */
+        background-color: #0A0E17; /* 3. Color de fondo del Dark Theme */
+        overflow-y: auto;          /* 4. Scroll solo si es necesario */
+         box-sizing: border-box;    /* Para que el padding no rompa el tamaño */
+        }
+
+/* Y no olvides agregar la animación al final de tu App.css para el punto 5 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in-view {
+  animation: fadeIn 300ms ease-in-out;
+}
+
+        .header {
+          height: 72px;
+          background: #12161f;
+          border-bottom: 1px solid #1e2533;
+          padding: 0 32px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: sticky;
+          top: 0;
+          z-index: 50;
+        }
+
+        .header-title {
+          font-size: 24px;
+          font-weight: 600;
+        }
+
+        .header-right {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .lang-selector {
+          padding: 8px 12px;
+          background: #1a1f2e;
+          border: 1px solid #2a3144;
+          border-radius: 6px;
+          color: #e4e6eb;
+          cursor: pointer;
+          font-size: 14px;
+        }
+
+        .theme-toggle {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #1a1f2e;
+          border: 1px solid #2a3144;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 18px;
+          transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+          background: #2a3144;
+        }
+
+        .user-profile {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 8px 16px;
+          background: #1a1f2e;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .user-profile:hover {
+          background: #2a3144;
+        }
+
+        .user-avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #00d4ff, #0066ff);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 600;
+          font-size: 14px;
+        }
+
+        .content {
+          padding: 32px;
+        }
+
+        .card {
+          background: #12161f;
+          border: 1px solid #1e2533;
+          border-radius: 12px;
+          margin-bottom: 24px;
+          overflow: hidden;
+        }
+
+        .card-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid #1e2533;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .card-title {
+          font-size: 18px;
+          font-weight: 600;
+        }
+
+        .card-body {
+          padding: 24px;
+        }
+
+        .btn {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 14px;
+        }
+
+        .btn-primary {
+          background: linear-gradient(135deg, #00d4ff, #0066ff);
+          color: white;
+        }
+
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+          background: #1a1f2e;
+          color: #e4e6eb;
+          border: 1px solid #2a3144;
+        }
+
+        .btn-secondary:hover {
+          background: #2a3144;
+        }
+
+        .table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .table th {
+          text-align: left;
+          padding: 16px;
+          background: #1a1f2e;
+          color: #8b92a8;
+          font-size: 13px;
+          font-weight: 600;
+          border-bottom: 1px solid #1e2533;
+        }
+
+        .table td {
+          padding: 16px;
+          border-bottom: 1px solid #1e2533;
+          font-size: 14px;
+        }
+
+        .table tr:hover {
+          background: rgba(0, 212, 255, 0.05);
+        }
+
+        .severity-badge {
+          padding: 4px 12px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+          display: inline-block;
+        }
+
+        .severity-critical {
+          background: rgba(239, 68, 68, 0.2);
+          color: #ef4444;
+        }
+
+        .severity-high {
+          background: rgba(251, 146, 60, 0.2);
+          color: #fb923c;
+        }
+
+        .severity-medium {
+          background: rgba(245, 158, 11, 0.2);
+          color: #f59e0b;
+        }
+
+        .severity-low {
+          background: rgba(16, 185, 129, 0.2);
+          color: #10b981;
+        }
+
+        .tab {
+          padding: 14px 24px;
+          cursor: pointer;
+          border-bottom: 3px solid transparent;
+          transition: all 0.2s;
+          color: #8b92a8;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+        }
+
+        .tab.active {
+          color: #00d4ff;
+          border-bottom-color: #00d4ff;
+        }
+
+        .tab:hover {
+          color: #00d4ff;
+        }
+
+        .drawer-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.7);
+          z-index: 200;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s;
+        }
+
+        .drawer-overlay.active {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        .drawer {
+          position: fixed;
+          top: 0;
+          right: -600px;
+          width: 600px;
+          height: 100vh;
+          background: #12161f;
+          box-shadow: -4px 0 24px rgba(0, 0, 0, 0.3);
+          z-index: 201;
+          transition: right 0.3s;
+          overflow-y: auto;
+        }
+
+        .drawer.active {
+          right: 0;
+        }
+
+        .drawer-header {
+          padding: 24px;
+          border-bottom: 1px solid #1e2533;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: sticky;
+          top: 0;
+          background: #12161f;
+          z-index: 10;
+        }
+
+        .drawer-title {
+          font-size: 20px;
+          font-weight: 600;
+          color: #00d4ff;
+        }
+
+        .drawer-content {
+          padding: 24px;
+        }
+
+        .close-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: #1a1f2e;
+          border: 1px solid #2a3144;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 18px;
+        }
+
+        .close-btn:hover {
+          background: #ef4444;
+          border-color: #ef4444;
+          color: white;
+        }
+
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 300;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.3s;
+        }
+
+        .modal-overlay.active {
+          opacity: 1;
+          pointer-events: all;
+        }
+
+        .modal {
+          background: #12161f;
+          border-radius: 12px;
+          border: 1px solid #1e2533;
+          width: 90%;
+          max-width: 500px;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .modal-header {
+          padding: 24px;
+          border-bottom: 1px solid #1e2533;
+        }
+
+        .modal-title {
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        .modal-body {
+          padding: 24px;
+        }
+
+        .modal-footer {
+          padding: 24px;
+          border-top: 1px solid #1e2533;
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+        }
+
+        .toast {
+          position: fixed;
+          top: 24px;
+          right: 24px;
+          background: #12161f;
+          border: 1px solid #00d4ff;
+          border-radius: 12px;
+          padding: 16px 20px;
+          min-width: 300px;
+          box-shadow: 0 4px 24px rgba(0, 212, 255, 0.3);
+          z-index: 400;
+          animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+          from {
+            transform: translateX(400px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        .toast-title {
+          font-weight: 600;
+          margin-bottom: 4px;
+          color: #00d4ff;
+        }
+
+        .toast-message {
+          font-size: 14px;
+          color: #8b92a8;
+        }
+
+        code {
+          background: #1a1f2e;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: 'Courier New', monospace;
+          font-size: 13px;
+        }
+        
+        @keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in-view {
+  animation: fadeIn 300ms ease-in-out;
+}
+
+/* =========================================
+   SISTEMA DE RESPONSIVE DESIGN (FE1-S1-T2)
+   ========================================= */
+
+/* 1. Botón Hamburguesa (Oculto en Desktop por defecto) */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #8b92a8;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.hamburger-btn:hover {
+  color: #00d4ff;
+}
+
+/* 2. Overlay semi-transparente para Móvil/Tablet */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 998; /* Justo debajo del sidebar */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* 3. TABLET & MOBILE (< 1024px) */
+@media (max-width: 1024px) {
+  
+  /* El botón hamburguesa aparece */
+  .hamburger-btn {
+    display: block;
+  }
+
+  /* El contenido principal ya no tiene el margen fijo de 260px */
+  .main-container {
+    margin-left: 0;
+    padding: 20px; /* Reducimos un poco el padding para pantallas pequeñas */
+  }
+
+  /* El Sidebar se convierte en un panel flotante escondido a la izquierda */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -260px; /* Escondido fuera de la pantalla */
+    height: 100vh;
+    z-index: 999;
+    transition: left 0.3s ease-in-out; /* Transición suave al abrir */
+    box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+  }
+
+  /* Clase que le agregaremos con React cuando el usuario haga clic en la hamburguesa */
+  .sidebar.open {
+    left: 0; /* Aparece en pantalla */
+  }
+}
+
+/* 4. MOBILE SMALL (< 768px) */
+@media (max-width: 768px) {
+  /* Ocultamos elementos no esenciales del Header en celulares para hacer espacio */
+  .lang-selector, .theme-toggle {
+    display: none;
+  }
+  
+  .user-profile span {
+    display: none; /* Ocultamos el nombre, dejamos solo el Avatar */
+  }
+}
