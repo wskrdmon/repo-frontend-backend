@@ -2,17 +2,6 @@ version: '3.8'
 
 services:
 
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: daniethuser
-      POSTGRES_PASSWORD: daniethpass
-      POSTGRES_DB: daniethdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   redis:
     image: redis:7-alpine
     ports:
@@ -25,9 +14,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://daniethuser:daniethpass@postgres:5432/daniethdb
-    depends_on:
-      - postgres
+      - DATABASE_URL=${DATABASE_URL}
 
   auth_service:
     build:
@@ -36,9 +23,7 @@ services:
     ports:
       - "8001:8001"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://daniethuser:daniethpass@postgres:5432/daniethdb
-    depends_on:
-      - postgres
+      - DATABASE_URL=${DATABASE_URL}
 
   analysis_service:
     build:
@@ -47,9 +32,7 @@ services:
     ports:
       - "8002:8002"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://daniethuser:daniethpass@postgres:5432/daniethdb
-    depends_on:
-      - postgres
+      - DATABASE_URL=${DATABASE_URL}
 
   tool_registry:
     build:
@@ -58,22 +41,18 @@ services:
     ports:
       - "8003:8003"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://daniethuser:daniethpass@postgres:5432/daniethdb
-    depends_on:
-      - postgres
+      - DATABASE_URL=${DATABASE_URL}
 
-  scanner_service:
+  tool_executor:
     build:
       context: .
-      dockerfile: scanner_service/Dockerfile
+      dockerfile: tool_executor/Dockerfile
+    ports:
+      - "8004:8004"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://daniethuser:daniethpass@postgres:5432/daniethdb
-      - REDIS_URL=redis://redis:6379
-      - TOOL_REGISTRY_URL=http://tool_registry:8003
+      - DATABASE_URL=${DATABASE_URL}
+      - TOOL_REGISTRY_URL=${TOOL_REGISTRY_URL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
-      - postgres
-      - redis
       - tool_registry
-
-volumes:
-  postgres_data:
