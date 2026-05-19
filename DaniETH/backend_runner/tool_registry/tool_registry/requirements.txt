@@ -4,5 +4,3 @@ sqlalchemy
 asyncpg
 python-dotenv
 pydantic
-passlib[bcrypt]
-python-jose[cryptography]
