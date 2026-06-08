@@ -1,4 +1,4 @@
-from sqlalchemy import Column, BigInteger, String, Text, JSON, Numeric, TIMESTAMP, ForeignKey
+from sqlalchemy import Column, BigInteger, String, Text, JSON, Numeric, TIMESTAMP
 from sqlalchemy.sql import func
 from shared.database.base import Base
 
@@ -15,7 +15,6 @@ class Herramienta(Base):
     esquema_input = Column(JSON, nullable=False)
     esquema_output = Column(JSON, nullable=False)
     version_actual = Column(String, nullable=False)
-    version_activa_id = Column(BigInteger, ForeignKey("versiones_herramientas.id", use_alter=True))
     estado = Column(Numeric)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(TIMESTAMP(timezone=True))

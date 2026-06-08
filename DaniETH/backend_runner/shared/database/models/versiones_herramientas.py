@@ -16,4 +16,3 @@ class VersionHerramienta(Base):
     check_estado = Column(TIMESTAMP(timezone=True))
     estado_check = Column(Numeric)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), nullable=False)
-    deprecated_at = Column(TIMESTAMP(timezone=True))

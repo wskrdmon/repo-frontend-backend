@@ -70,7 +70,7 @@ class HerramientaRepository:
         query = (
             update(Herramienta)
             .where(Herramienta.id == herramienta_id)
-            .values(version_activa_id=version_id, version_actual=version_str, updated_at=func.now())
+            .values(version_actual=version_str, updated_at=func.now())
         )
         await session.execute(query)
         await session.commit()

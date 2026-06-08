@@ -12,12 +12,27 @@ async def obtener_fallback(nombre: str, session: AsyncSession = Depends(get_db))
     fallback = await VersionService.obtener_fallback(session, nombre)
     if not fallback:
         return {"message": "no hay version de fallback disponible"}
-    return fallback
+    return _version_to_dict(fallback)
 
 
 @router.get("/{nombre}/versiones")
 async def listar_versiones(nombre: str, session: AsyncSession = Depends(get_db)):
-    return await VersionService.listar_versiones(session, nombre)
+    versiones = await VersionService.listar_versiones(session, nombre)
+    return [_version_to_dict(v) for v in versiones]
+
+
+def _version_to_dict(v):
+    return {
+        "id": v.id,
+        "id_herramienta": v.id_herramienta,
+        "version": v.version,
+        "docker_imagen": v.docker_imagen,
+        "activo": v.activo,
+        "disponible": v.disponible,
+        "notas_version": v.notas_version,
+        "estado_check": float(v.estado_check) if v.estado_check is not None else None,
+        "created_at": v.created_at.isoformat() if v.created_at else None
+    }
 
 
 @router.post("/{nombre}/versiones")

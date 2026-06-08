@@ -11,7 +11,7 @@ class TareaRepository:
     async def crear(
         session: AsyncSession,
         sesion_id: int,
-        herramienta: str,
+        herramienta: int,
         herramienta_id: int,
         version_usada_id: int,
         orden_ejecucion: int,
@@ -21,7 +21,7 @@ class TareaRepository:
             insert(TareaEscaneo)
             .values(
                 sesion_id=sesion_id,
-                herramienta=herramienta,
+                herramienta=herramienta_id,
                 herramienta_id=herramienta_id,
                 version_usada_id=version_usada_id,
                 orden_ejecucion=orden_ejecucion,
