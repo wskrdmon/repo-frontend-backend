@@ -10,12 +10,15 @@ def main():
     parametro = params.get("parametro", "")
     nivel = params.get("nivel", 1)
     data = params.get("data", "")
-    solo_deteccion = params.get("solo_deteccion", True)
+    forms = params.get("forms", False)
+    crawl = params.get("crawl", 0)
+    riesgo = params.get("riesgo", 1)
 
     cmd = [
         "python", "/sqlmap/sqlmap.py",
         "-u", url,
         "--level", str(nivel),
+        "--risk", str(riesgo),
         "--batch",
         "--output-dir", "/tmp/sqlmap_output"
     ]
@@ -23,6 +26,10 @@ def main():
         cmd.extend(["-p", parametro])
     if data:
         cmd.extend(["--data", data])
+    if forms:
+        cmd.append("--forms")
+    if crawl:
+        cmd.extend(["--crawl", str(crawl)])
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
