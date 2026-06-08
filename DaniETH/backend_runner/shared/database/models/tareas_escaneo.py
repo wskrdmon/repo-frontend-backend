@@ -9,6 +9,7 @@ class TareaEscaneo(Base):
     id = Column(BigInteger, primary_key=True)
     sesion_id = Column(BigInteger, ForeignKey("sesiones_escaneo.id"))
     herramienta = Column(BigInteger, nullable=False)
+    nombre_herramienta = Column(String)
     herramienta_id = Column(BigInteger, ForeignKey("herramientas.id"))
     version_usada_id = Column(BigInteger, ForeignKey("versiones_herramientas.id"))
     fallback_usado = Column(Boolean, default=False)

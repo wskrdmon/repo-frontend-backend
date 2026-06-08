@@ -131,7 +131,8 @@ class ExecutorService:
         tarea_id = await TareaRepository.crear(
             session=session,
             sesion_id=data.sesion_id,
-            herramienta=data.herramienta,
+            herramienta=herramienta["id"],
+            nombre_herramienta=data.herramienta,
             herramienta_id=herramienta["id"],
             version_usada_id=version_activa["id"],
             orden_ejecucion=data.orden_ejecucion,

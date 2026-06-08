@@ -28,7 +28,8 @@ async def obtener_tarea(tarea_id: int, session: AsyncSession = Depends(get_db)):
     return {
         "tarea_id": tarea.id,
         "estado": tarea.estado,
-        "herramienta": tarea.herramienta,
+        "herramienta_id": tarea.herramienta,
+        "nombre_herramienta": tarea.nombre_herramienta,
         "input_params": tarea.input_params,
         "fallback_usado": tarea.fallback_usado,
         "codigo_salida": tarea.codigo_salida,

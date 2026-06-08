@@ -12,6 +12,7 @@ class TareaRepository:
         session: AsyncSession,
         sesion_id: int,
         herramienta: int,
+        nombre_herramienta: str,
         herramienta_id: int,
         version_usada_id: int,
         orden_ejecucion: int,
@@ -22,6 +23,7 @@ class TareaRepository:
             .values(
                 sesion_id=sesion_id,
                 herramienta=herramienta_id,
+                nombre_herramienta=nombre_herramienta,
                 herramienta_id=herramienta_id,
                 version_usada_id=version_usada_id,
                 orden_ejecucion=orden_ejecucion,
