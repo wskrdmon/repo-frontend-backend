@@ -30,11 +30,9 @@ def main():
     texto_lower = texto.lower()
 
     vulnerable = any([
-        "is vulnerable" in texto_lower,
-        "sqlmap identified" in texto_lower,
-        "injectable" in texto_lower,
-        ("parameter:" in texto_lower and "type:" in texto_lower),
-        ("parameter:" in texto_lower and "payload:" in texto_lower),
+        "sqlmap identified the following injection" in texto_lower,
+        "is vulnerable. do you want to exploit" in texto_lower,
+        ("---" in texto and "Parameter:" in texto and "Type:" in texto and "Payload:" in texto),
     ])
 
     inyecciones = []
