@@ -16,7 +16,7 @@ def main():
     if crawl:
         cmd.append("--crawl")
 
-    resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+    resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=800)
 
     texto = resultado.stdout
     vulnerable = "xss" in texto.lower() and ("vulnerable" in texto.lower() or "payload" in texto.lower())
