@@ -40,6 +40,7 @@ class ExecutorService:
         tarea_id: int,
         docker_imagen: str,
         params: dict,
+        nombre_herramienta: str = None,
         fallback_imagen: str = None,
         fallback_version_id: int = None
     ):
@@ -76,6 +77,7 @@ class ExecutorService:
                 await ResultadoRepository.crear(
                     session=session,
                     tarea_id=tarea_id,
+                    nombre_herramienta=nombre_herramienta,
                     raw_output=stdout,
                     json_output=json_output
                 )
@@ -145,6 +147,7 @@ class ExecutorService:
             tarea_id,
             version_activa["docker_imagen"],
             data.params,
+            data.herramienta,
             fallback_imagen,
             fallback_version_id
         )

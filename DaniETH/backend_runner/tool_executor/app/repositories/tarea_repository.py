@@ -96,11 +96,12 @@ class TareaRepository:
 class ResultadoRepository:
 
     @staticmethod
-    async def crear(session: AsyncSession, tarea_id: int, raw_output: str, json_output: dict):
+    async def crear(session: AsyncSession, tarea_id: int, raw_output: str, json_output: dict, nombre_herramienta: str = None):
         query = (
             insert(ResultadoTarea)
             .values(
                 tarea_id=tarea_id,
+                nombre_herramienta=nombre_herramienta,
                 raw_output=raw_output,
                 json_output=json_output
             )
