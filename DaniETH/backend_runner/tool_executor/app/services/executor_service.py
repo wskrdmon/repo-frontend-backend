@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class ExecutorService:
 
     @staticmethod
-    async def lanzar_container(docker_imagen: str, params: dict, timeout: int = 300):
+    async def lanzar_container(docker_imagen: str, params: dict, timeout: int = 900):
         params_json = json.dumps(params)
         inicio = time.time()
 
