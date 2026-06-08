@@ -13,13 +13,18 @@ def main():
     forms = params.get("forms", False)
     crawl = params.get("crawl", 0)
     riesgo = params.get("riesgo", 1)
+    dbms = params.get("dbms", "")
+    tecnica = params.get("tecnica", "")
+    time_sec = params.get("time_sec", 10)
 
     cmd = [
         "python", "/sqlmap/sqlmap.py",
         "-u", url,
         "--level", str(nivel),
         "--risk", str(riesgo),
+        "--time-sec", str(time_sec),
         "--batch",
+        "--random-agent",
         "--output-dir", "/tmp/sqlmap_output"
     ]
     if parametro:
@@ -30,6 +35,10 @@ def main():
         cmd.append("--forms")
     if crawl:
         cmd.extend(["--crawl", str(crawl)])
+    if dbms:
+        cmd.extend(["--dbms", dbms])
+    if tecnica:
+        cmd.extend(["--technique", tecnica])
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
