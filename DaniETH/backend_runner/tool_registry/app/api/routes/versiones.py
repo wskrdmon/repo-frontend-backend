@@ -53,3 +53,18 @@ async def activar_version(
 ):
     version_id = await VersionService.activar_version(session, nombre, version)
     return {"message": "version activada", "version_id": version_id}
+
+
+@router.put("/{nombre}/versiones/{version}/marcar-fallida")
+async def marcar_version_fallida(
+    nombre: str,
+    version: str,
+    session: AsyncSession = Depends(get_db)
+):
+    """
+    Marca una version como no disponible y activa automaticamente
+    la version de fallback. El executor llama a este endpoint
+    cuando una version falla al ejecutarse.
+    """
+    resultado = await VersionService.marcar_fallida_y_activar_fallback(session, nombre, version)
+    return resultado

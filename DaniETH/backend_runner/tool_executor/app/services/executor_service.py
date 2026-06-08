@@ -66,6 +66,27 @@ class ExecutorService:
                 fallback_usado = True
                 version_fallback_id = fallback_version_id
 
+                # Notificar al registry para marcar la versión fallida y activar el fallback
+                if nombre_herramienta:
+                    try:
+                        async with httpx.AsyncClient() as client:
+                            # Obtener la versión activa que falló para marcarla
+                            resp = await client.get(f"{TOOL_REGISTRY_URL}/herramientas/{nombre_herramienta}/versiones")
+                            versiones = resp.json()
+                            version_fallida = next(
+                                (v for v in versiones if v.get("docker_imagen") == docker_imagen), None
+                            )
+                            if version_fallida:
+                                await client.put(
+                                    f"{TOOL_REGISTRY_URL}/herramientas/{nombre_herramienta}/versiones/{version_fallida['version']}/marcar-fallida"
+                                )
+                                logger.warning(
+                                    f"Version '{version_fallida['version']}' marcada como no disponible. "
+                                    f"Fallback activado automáticamente."
+                                )
+                    except Exception as e_reg:
+                        logger.error(f"No se pudo notificar al registry sobre versión fallida: {e_reg}")
+
             # Parsear output
             try:
                 json_output = json.loads(stdout)

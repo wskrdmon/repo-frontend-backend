@@ -74,6 +74,22 @@ class VersionRepository:
         return result.one_or_none()
 
     @staticmethod
+    async def marcar_no_disponible(session: AsyncSession, version_id: int):
+        query = (
+            update(VersionHerramienta)
+            .where(VersionHerramienta.id == version_id)
+            .values(activo=False, disponible=False)
+        )
+        await session.execute(query)
+        await session.commit()
+
+    @staticmethod
+    async def obtener_por_id(session: AsyncSession, version_id: int):
+        query = select(VersionHerramienta).where(VersionHerramienta.id == version_id)
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
+
+    @staticmethod
     async def obtener_fallback(session: AsyncSession, id_herramienta: int):
         query = (
             select(VersionHerramienta)
