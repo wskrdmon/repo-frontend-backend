@@ -41,6 +41,10 @@ def main():
         if sev in resumen:
             resumen[sev] += 1
 
+    error_msg = None
+    if resultado.returncode != 0:
+        error_msg = resultado.stderr.strip() or resultado.stdout.strip() or "nuclei exit code " + str(resultado.returncode)
+
     output = {
         "objetivo": objetivo,
         "resultado": {
@@ -48,7 +52,7 @@ def main():
             "resumen": {**resumen, "total": len(vulnerabilidades)}
         },
         "codigo_salida": resultado.returncode,
-        "error": resultado.stderr if resultado.returncode != 0 else None
+        "error": error_msg
     }
 
     print(json.dumps(output))
