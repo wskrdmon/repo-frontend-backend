@@ -27,23 +27,25 @@ def main():
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
     texto = resultado.stdout
-    vulnerable = (
-        "is vulnerable" in texto.lower() or
-        "sqlmap identified" in texto.lower() or
-        "parameter" in texto.lower() and "injectable" in texto.lower() or
-        "[PAYLOAD]" in texto or
-        "Type: " in texto and "Payload: " in texto
-    )
+    texto_lower = texto.lower()
+
+    vulnerable = any([
+        "is vulnerable" in texto_lower,
+        "sqlmap identified" in texto_lower,
+        "injectable" in texto_lower,
+        ("parameter:" in texto_lower and "type:" in texto_lower),
+        ("parameter:" in texto_lower and "payload:" in texto_lower),
+    ])
 
     inyecciones = []
     capturando = False
     for linea in texto.splitlines():
-        linea = linea.strip()
-        if "Parameter:" in linea:
+        stripped = linea.strip()
+        if stripped.startswith("Parameter:"):
             capturando = True
-        if capturando and linea:
-            inyecciones.append(linea)
-        if capturando and linea == "":
+        if capturando and stripped:
+            inyecciones.append(stripped)
+        if capturando and not stripped:
             capturando = False
 
     output = {
@@ -51,7 +53,7 @@ def main():
         "resultado": {
             "vulnerable": vulnerable,
             "inyecciones_detectadas": inyecciones,
-            "resumen": texto.split("---")[-1].strip() if "---" in texto else ""
+            "raw_output": texto[-3000:] if len(texto) > 3000 else texto
         },
         "codigo_salida": resultado.returncode,
         "error": resultado.stderr if resultado.returncode != 0 else None
