@@ -23,19 +23,28 @@ def main():
         cmd.extend(["-p", parametro])
     if data:
         cmd.extend(["--data", data])
-    if solo_deteccion:
-        cmd.append("--technique=B")  # solo boolean-based, menos invasivo
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
     texto = resultado.stdout
-    vulnerable = "is vulnerable" in texto or "sqlmap identified" in texto.lower()
+    vulnerable = (
+        "is vulnerable" in texto.lower() or
+        "sqlmap identified" in texto.lower() or
+        "parameter" in texto.lower() and "injectable" in texto.lower() or
+        "[PAYLOAD]" in texto or
+        "Type: " in texto and "Payload: " in texto
+    )
 
     inyecciones = []
+    capturando = False
     for linea in texto.splitlines():
         linea = linea.strip()
-        if "Parameter:" in linea or "Type:" in linea or "Payload:" in linea:
+        if "Parameter:" in linea:
+            capturando = True
+        if capturando and linea:
             inyecciones.append(linea)
+        if capturando and linea == "":
+            capturando = False
 
     output = {
         "url": url,

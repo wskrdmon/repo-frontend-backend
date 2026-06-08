@@ -10,7 +10,7 @@ def main():
     parametro = params.get("parametro", "")
     crawl = params.get("crawl", False)
 
-    cmd = ["python", "/xsstrike/xsstrike.py", "-u", url]
+    cmd = ["python", "/xsstrike/xsstrike.py", "-u", url, "--skip-dom"]
     if parametro:
         cmd.extend(["--params", parametro])
     if crawl:

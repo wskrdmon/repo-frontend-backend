@@ -11,7 +11,7 @@ def main():
     severidad = params.get("severidad", [])
     rate_limit = params.get("rate_limit", 150)
 
-    cmd = ["nuclei", "-u", objetivo, "-rate-limit", str(rate_limit), "-json", "-silent"]
+    cmd = ["nuclei", "-u", objetivo, "-rate-limit", str(rate_limit), "-j", "-silent"]
     if templates:
         for t in templates:
             cmd.extend(["-t", t])
