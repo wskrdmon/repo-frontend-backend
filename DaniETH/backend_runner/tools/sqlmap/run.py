@@ -28,8 +28,22 @@ def main():
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
+    texto = resultado.stdout
+    vulnerable = "is vulnerable" in texto or "sqlmap identified" in texto.lower()
+
+    inyecciones = []
+    for linea in texto.splitlines():
+        linea = linea.strip()
+        if "Parameter:" in linea or "Type:" in linea or "Payload:" in linea:
+            inyecciones.append(linea)
+
     output = {
-        "raw_output": resultado.stdout,
+        "url": url,
+        "resultado": {
+            "vulnerable": vulnerable,
+            "inyecciones_detectadas": inyecciones,
+            "resumen": texto.split("---")[-1].strip() if "---" in texto else ""
+        },
         "codigo_salida": resultado.returncode,
         "error": resultado.stderr if resultado.returncode != 0 else None
     }

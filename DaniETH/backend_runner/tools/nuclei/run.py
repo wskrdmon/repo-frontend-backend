@@ -20,18 +20,33 @@ def main():
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
 
-    # nuclei devuelve una línea JSON por vulnerabilidad
     vulnerabilidades = []
     for linea in resultado.stdout.strip().splitlines():
         try:
-            vulnerabilidades.append(json.loads(linea))
+            v = json.loads(linea)
+            vulnerabilidades.append({
+                "template_id": v.get("template-id", ""),
+                "nombre": v.get("info", {}).get("name", ""),
+                "severidad": v.get("info", {}).get("severity", ""),
+                "url_afectada": v.get("matched-at", ""),
+                "descripcion": v.get("info", {}).get("description", ""),
+                "referencia": v.get("info", {}).get("reference", [])
+            })
         except Exception:
             pass
 
+    resumen = {"info": 0, "low": 0, "medium": 0, "high": 0, "critical": 0}
+    for v in vulnerabilidades:
+        sev = v.get("severidad", "").lower()
+        if sev in resumen:
+            resumen[sev] += 1
+
     output = {
-        "vulnerabilidades": vulnerabilidades,
-        "total": len(vulnerabilidades),
-        "raw_output": resultado.stdout,
+        "objetivo": objetivo,
+        "resultado": {
+            "vulnerabilidades": vulnerabilidades,
+            "resumen": {**resumen, "total": len(vulnerabilidades)}
+        },
         "codigo_salida": resultado.returncode,
         "error": resultado.stderr if resultado.returncode != 0 else None
     }

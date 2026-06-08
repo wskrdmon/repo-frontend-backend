@@ -18,8 +18,22 @@ def main():
 
     resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
+    texto = resultado.stdout
+    vulnerable = "xss" in texto.lower() and ("vulnerable" in texto.lower() or "payload" in texto.lower())
+
+    hallazgos = []
+    for linea in texto.splitlines():
+        linea = linea.strip()
+        if "Payload:" in linea or "vulnerable" in linea.lower():
+            hallazgos.append(linea)
+
     output = {
-        "raw_output": resultado.stdout,
+        "url": url,
+        "resultado": {
+            "vulnerable": vulnerable,
+            "hallazgos": hallazgos,
+            "total_encontrados": len(hallazgos)
+        },
         "codigo_salida": resultado.returncode,
         "error": resultado.stderr if resultado.returncode != 0 else None
     }
