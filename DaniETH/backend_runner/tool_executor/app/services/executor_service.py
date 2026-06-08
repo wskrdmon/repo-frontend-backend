@@ -1,6 +1,7 @@
 import asyncio
 import json
 import time
+import logging
 
 import httpx
 
@@ -8,6 +9,8 @@ from shared.database.session import SessionLocal
 from tool_executor.app.core.config import TOOL_REGISTRY_URL
 from tool_executor.app.core.exceptions import NotFoundException, ToolExecutionException
 from tool_executor.app.repositories.tarea_repository import TareaRepository, ResultadoRepository
+
+logger = logging.getLogger(__name__)
 
 
 class ExecutorService:
@@ -40,40 +43,42 @@ class ExecutorService:
         fallback_imagen: str = None,
         fallback_version_id: int = None
     ):
-        async with SessionLocal() as session:
-            try:
+        try:
+            # Marcar como corriendo
+            async with SessionLocal() as session:
                 await TareaRepository.actualizar_corriendo(session, tarea_id)
 
+            # Ejecutar container fuera de la sesión DB para no bloquearla
+            stdout, stderr, codigo_salida, duracion = await ExecutorService.lanzar_container(
+                docker_imagen, params
+            )
+
+            fallback_usado = False
+            version_fallback_id = None
+
+            # Si falló y hay fallback, intentar con la versión anterior
+            if codigo_salida != 0 and fallback_imagen:
+                logger.warning(f"Tarea {tarea_id}: version activa falló, usando fallback")
                 stdout, stderr, codigo_salida, duracion = await ExecutorService.lanzar_container(
-                    docker_imagen, params
+                    fallback_imagen, params
                 )
+                fallback_usado = True
+                version_fallback_id = fallback_version_id
 
-                fallback_usado = False
-                version_fallback_id = None
+            # Parsear output
+            try:
+                json_output = json.loads(stdout)
+            except Exception:
+                json_output = {"raw": stdout, "error": stderr}
 
-                # Si falló y hay fallback, intentar con la versión anterior
-                if codigo_salida != 0 and fallback_imagen:
-                    stdout, stderr, codigo_salida, duracion = await ExecutorService.lanzar_container(
-                        fallback_imagen, params
-                    )
-                    fallback_usado = True
-                    version_fallback_id = fallback_version_id
-
-                # Parsear output
-                try:
-                    json_output = json.loads(stdout)
-                except Exception:
-                    json_output = {"raw": stdout, "error": stderr}
-
-                # Guardar resultado
+            # Guardar resultado y actualizar estado con sesión fresca
+            async with SessionLocal() as session:
                 await ResultadoRepository.crear(
                     session=session,
                     tarea_id=tarea_id,
                     raw_output=stdout,
                     json_output=json_output
                 )
-
-                # Actualizar estado de la tarea
                 await TareaRepository.actualizar_completado(
                     session=session,
                     tarea_id=tarea_id,
@@ -83,12 +88,20 @@ class ExecutorService:
                     version_fallback_id=version_fallback_id
                 )
 
-            except Exception as e:
-                await TareaRepository.actualizar_fallido(
-                    session=session,
-                    tarea_id=tarea_id,
-                    mensaje_error=str(e)
-                )
+            logger.info(f"Tarea {tarea_id} completada en {duracion}s con codigo {codigo_salida}")
+
+        except Exception as e:
+            logger.error(f"Tarea {tarea_id} falló: {e}")
+            # Sesión fresca para no usar una sesión en estado inválido
+            try:
+                async with SessionLocal() as session:
+                    await TareaRepository.actualizar_fallido(
+                        session=session,
+                        tarea_id=tarea_id,
+                        mensaje_error=str(e)
+                    )
+            except Exception as e2:
+                logger.error(f"No se pudo marcar tarea {tarea_id} como fallida: {e2}")
 
     @staticmethod
     async def ejecutar(session, data, background_tasks):
