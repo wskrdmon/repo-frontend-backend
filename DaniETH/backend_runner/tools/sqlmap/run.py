@@ -40,7 +40,7 @@ def main():
     if tecnica:
         cmd.extend(["--technique", tecnica])
 
-    resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+    resultado = subprocess.run(cmd, capture_output=True, text=True, timeout=800)
 
     texto = resultado.stdout
     texto_lower = texto.lower()
